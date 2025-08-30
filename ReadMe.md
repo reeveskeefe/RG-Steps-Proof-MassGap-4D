@@ -1,9 +1,12 @@
-ProvingTheRGStep — Numerical validator for a reflection-positive, finite-range RG step in 4D SU(3)
+### Proving The RG Step — Numerical validator for a reflection-positive, finite-range RG step in 4D SU(3)
 
-This project implements and validates a concrete one-step renormalization group (RG) map for 4D lattice $\mathrm{SU}(3)$ gauge theory and checks the three pillars you need for the constructive program:
-	1.	Reflection positivity (RP) — empirical OS cylinder tests improve after RG.
-	2.	Finite-range / locality — short/medium-range correlators decay faster after RG.
-	3.	KP/BKAR admissibility + quadratic contraction — a Kotecký–Preiss (KP) polymer norm contracts quadratically with a scale-uniform constant:
+This project implements and validates a concrete one-step renormalization group (RG) map for 4D lattice  	    $\mathrm{SU}(3)$ gauge theory and checks the three pillars you need for the constructive program:
+		1.	Reflection positivity (RP) — empirical OS cylinder tests improve after RG.
+		2.	Finite-range / locality — short/medium-range correlators decay faster after RG.
+		3.	KP/BKAR admissibility + quadratic contraction — a Kotecký–Preiss (KP) polymer norm contracts 
+
+Quadratically with a scale-uniform constant:
+```
 $$
 \boxed{;\eta_{k+1}\le A,\eta_k^2,\qquad A\text{ independent of }k,;}
 $$
@@ -11,7 +14,7 @@ and the seed margin $A,\eta_0<1$ holds, giving a double-exponential collapse
 $$
 \eta_k ;\le; A^{,2^k-1},\eta_0^{,2^k};\longrightarrow;0.
 $$
-
+```
 The repo contains:
 	•	clean, explicit Python code for the RG step and validators,
 	•	a full LaTeX report (RGStepsProof.tex → RGStepsProof.pdf),
@@ -24,7 +27,7 @@ The accompanying experiments certify the constants for this map: on genuine bloc
 Scope. The proof is for a specific admissible RG scheme (parameters b,b_t,\tau) and uses computer-verified constants extracted from finite-volume ensembles to confirm the KP hypotheses and RP/locality claims for that scheme. The BKAR/KP derivation of \eta_{k+1}\le A\eta_k^2 and the seed-margin → double-exponential implication are purely deductive; the numerics certify that the hypotheses and constants hold for the exhibited map
 
 ⸻
-
+```
 Table of contents
 	•	Repository layout
 	•	Install & prerequisites
@@ -38,9 +41,9 @@ Table of contents
 	•	Performance tips
 	•	Troubleshooting
 	•	License
-
+```
 ⸻
-
+```
 Repository layout
 
 .
@@ -57,14 +60,14 @@ Repository layout
 │   ├── locality_decay_before.png, locality_decay_after.png
 │   └── ignore_edgebins_T4L4_rmax3/locality_decay_{before,after}.png
 └── results/figs/                # extra outputs for convenience
-
+```
 
 ⸻
 
 Install & prerequisites
 	•	Python: 3.10+ (tested on 3.13)
 	•	Packages: numpy, matplotlib
-
+```
 python3 -m venv env
 source env/bin/activate
 python -m pip install --upgrade pip
@@ -72,28 +75,28 @@ pip install numpy matplotlib
 
 	•	(Optional) TeX for the PDF report:
 	•	texlive-full or equivalent; compile the report with:
-
 pdflatex RGStepsProof.tex
 pdflatex RGStepsProof.tex
 
-
+```
 
 ⸻
 
-RG step: what the code implements
+## RG step: what the code implements
 
-On a periodic $T\times L^3$ lattice with $\mathrm{SU}(3)$ link variables $U_\mu(x)$:
-	1.	Temporal decimation (power $b_t$): multiply $b_t$ consecutive time-links, project back to $\mathrm{SU}(3)$.
-	2.	Spatial blocking (factor $b$): straight block-path products, project to $\mathrm{SU}(3)$.
-	3.	Heat-kernel smoothing: right-multiply by $\exp(i\sqrt{\tau},H)$ with $H$ Hermitian traceless Gaussian, then project.
-	4.	Recentering: subtract one-point means so the polymer expansion has no linear term.
+	On a periodic $T\times L^3$ lattice with $\mathrm{SU}(3)$ link variables $U_\mu(x)$:
+		1.	Temporal decimation (power $b_t$): multiply $b_t$ consecutive time-links, project back to 	$\mathrm{SU}(3)$.
+		2.	Spatial blocking (factor $b$): straight block-path products, project to $\mathrm{SU}(3)$.
+		3.	Heat-kernel smoothing: right-multiply by $\exp(i\sqrt{\tau},H)$ with $H$ Hermitian traceless Gaussian, then project.
+		4.	Recentering: subtract one-point means so the polymer expansion has no linear term.
 
 We test RP, locality, and KP contraction on the plaquette scalar
+```
 $$
 p(x)=\tfrac{1}{3},\Re,\operatorname{Tr}U_{\mu\nu}(x),\qquad
 v(x)=p(x)-\langle p\rangle.
 $$
-
+```
 ⸻
 
 The three validators
